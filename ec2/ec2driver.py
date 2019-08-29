@@ -50,7 +50,7 @@ def main():
     """
     Main function. Tries to find an EC2 instance with the provided name. If it can't, prints error message. If it
     can, builds the SSH command to connect to it and runs it.
-    :return:
+    :return: Exit code
     """
     instance_url = find_instance_url(cli_args_dict['name'])
     os.system(build_ssh_command(instance_url)) if instance_url else print_no_instance_found_error()

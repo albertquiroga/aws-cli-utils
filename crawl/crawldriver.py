@@ -71,7 +71,7 @@ def main():
     """
     Main function. Looks for a crawler already crawling the provided S3 path. If it does exist, it will
     run the crawler. If it doesn't, it will create a new one and run it.
-    :return: None
+    :return: Exit code
     """
     existing_crawler_name = look_for_existing_crawler(s3_path)
     run_crawler(existing_crawler_name) if existing_crawler_name else create_and_run_crawler(s3_path)
