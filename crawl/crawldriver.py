@@ -67,7 +67,7 @@ def create_and_run_crawler(s3_location):
     glue.start_crawler(Name=crawler_name)
 
 
-def crawl():
+def main():
     """
     Main function. Looks for a crawler already crawling the provided S3 path. If it does exist, it will
     run the crawler. If it doesn't, it will create a new one and run it.

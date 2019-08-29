@@ -6,7 +6,7 @@ setup(
     packages=['crawl', 'bertolb_utils'],
     entry_points={
         'console_scripts': [
-            'crawl=crawl.__init__:run'
+            'crawl=crawl.__main__:main'
         ]
     },
     install_requires=['boto3']
