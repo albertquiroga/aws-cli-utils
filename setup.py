@@ -1,13 +1,14 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='bertolb-tools',
     version='0.0.1',
-    packages=['crawl', 'ec2', 'bertolb_utils'],
+    packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'crawl=crawl.__main__:main',
-            'ec2=ec2.__main__:main'
+            'crawl=glue.crawl.__main__:main',
+            'ec2=ec2.__main__:main',
+            'devendpoint=glue.devendpoint.__main__:main'
         ]
     },
     install_requires=['boto3']

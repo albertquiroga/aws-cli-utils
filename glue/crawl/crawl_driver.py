@@ -5,7 +5,7 @@ from bertolb_utils import format_location
 glue = boto3.client('glue')
 
 parser = argparse.ArgumentParser(prog='crawl', description='Crawl an S3 location')
-parser.add_argument('location', help='S3 path of the location to be crawled')
+parser.add_argument('location', help='s3 path of the location to be crawled')
 
 cli_args_dict = vars(parser.parse_args())
 

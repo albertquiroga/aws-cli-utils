@@ -45,6 +45,22 @@ optional arguments:
                         Path to SSH keypair to use
 ```
 
+### devendpoint
+
+```
+usage: devendpoint [-h] [-n NAME] [-k KEY] [-p] [-l {python,scala,none}]
+
+Connect to Glue dev endpoints
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -n NAME, --name NAME  name of the dev endpoint to connect to
+  -k KEY, --key KEY     path to private SSH key to use
+  -p, --print           print SSH command instead of running it
+  -l {python,scala,none}, --language {python,scala,none}
+                        what REPL to launch (or none). Default: python
+```
+
 ## Useful links
 ### Python modules stuff
 * https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html

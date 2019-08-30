@@ -1,13 +1,18 @@
 import boto3
 import argparse
 import os
+from bertolb_utils import build_ssh_command
+
+DEFAULT_EC2_NAME = 'bertolb'
+DEFAULT_USERNAME = 'ec2-user'
+DEFAULT_PKEY_PATH = '~/aws/keypairs/bertolb-ireland.pem'
 
 ec2 = boto3.client('ec2')
 
 parser = argparse.ArgumentParser(prog='ec2', description='Connect and manage EC2 instances')
-parser.add_argument('-n', '--name', action='store', default='bertolb', help='Connect to the specified EC2 instance name (tag:Name)')
-parser.add_argument('-u', '--user', action='store', default='ec2-user', help='Username to use in the login')
-parser.add_argument('-k', '--keypair', action='store', default='~/aws/keypairs/bertolb-ireland.pem', help='Path to SSH keypair to use')
+parser.add_argument('-n', '--name', action='store', default=DEFAULT_EC2_NAME, help='connect to the specified EC2 instance name (tag:Name)')
+parser.add_argument('-u', '--user', action='store', default=DEFAULT_USERNAME, help='username to use in the login')
+parser.add_argument('-k', '--key', action='store', default=DEFAULT_PKEY_PATH, help='path to private SSH key to use')
 
 cli_args_dict = vars(parser.parse_args())
 
@@ -29,23 +34,6 @@ def find_instance_url(instance_name):
     return hostname
 
 
-def build_ssh_command(instance_dns_name):
-    """
-    Builds the CLI SSH command based on the CLI arguments
-    :param instance_dns_name: EC2 instance hostname
-    :return: Command string
-    """
-    return 'ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=10 -i ' + cli_args_dict['keypair'] + ' ' + cli_args_dict['user'] + '@' + instance_dns_name
-
-
-def print_no_instance_found_error():
-    """
-    In case we can't find any EC2 instances with the 'Name' tag equal to the provided name, print error message
-    :return: None
-    """
-    print('No EC2 instance with that name was found')
-
-
 def main():
     """
     Main function. Tries to find an EC2 instance with the provided name. If it can't, prints error message. If it
@@ -53,4 +41,9 @@ def main():
     :return: Exit code
     """
     instance_url = find_instance_url(cli_args_dict['name'])
-    os.system(build_ssh_command(instance_url)) if instance_url else print_no_instance_found_error()
+    if instance_url:
+        os.system(build_ssh_command(hostname=instance_url,
+                                    username=cli_args_dict['user'],
+                                    pkey_path=cli_args_dict['key']))
+    else:
+        print('No EC2 instance with that name was found')
