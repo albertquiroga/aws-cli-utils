@@ -13,6 +13,7 @@ parser = argparse.ArgumentParser(prog='ec2', description='Connect and manage EC2
 parser.add_argument('-n', '--name', action='store', default=DEFAULT_EC2_NAME, help='connect to the specified EC2 instance name (tag:Name)')
 parser.add_argument('-u', '--user', action='store', default=DEFAULT_USERNAME, help='username to use in the login')
 parser.add_argument('-k', '--key', action='store', default=DEFAULT_PKEY_PATH, help='path to private SSH key to use')
+parser.add_argument('-p', '--print', action='store_true', default=False, help='print the SSH command instead of executing it')
 
 cli_args_dict = vars(parser.parse_args())
 
@@ -42,8 +43,9 @@ def main():
     """
     instance_url = find_instance_url(cli_args_dict['name'])
     if instance_url:
-        os.system(build_ssh_command(hostname=instance_url,
-                                    username=cli_args_dict['user'],
-                                    pkey_path=cli_args_dict['key']))
+        command = build_ssh_command(hostname=instance_url, username=cli_args_dict['user'],
+                                    pkey_path=cli_args_dict['key'],
+                                    options='-o StrictHostKeyChecking=no -o ServerAliveInterval=10')
+        print(command) if cli_args_dict['print'] else os.system(command)
     else:
         print('No EC2 instance with that name was found')
