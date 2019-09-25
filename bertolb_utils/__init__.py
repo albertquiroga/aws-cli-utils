@@ -5,17 +5,17 @@ def format_location(raw_location):
         return raw_location + '/'
 
 
-def _combine_ssh_args(hostname, username, key_path=None, port=22, options=''):
-    return "ssh %s%s %s@%s -p %i"%(options, " -i " + key_path if key_path else '', username, hostname, port)
+def _combine_ssh_args(hostname, username, key_path=None, port=22, ssh_options='', extra_args=''):
+    return "ssh %s%s %s@%s -p %i %s"%(ssh_options, " -i " + key_path if key_path else '', username, hostname, port, extra_args)
 
 
-def build_ssh_command(hostname, username, pkey_path, port=22, options='',
+def build_ssh_command(hostname, username, pkey_path, port=22, ssh_options='', extra_args='',
                       tunnel=False, tunnel_port=8157,
                       bastion=False, bastion_hostname='', bastion_username='', bastion_pkey_path='', bastion_port=22):
-    res = _combine_ssh_args(hostname, username, pkey_path, port, options)
+    res = _combine_ssh_args(hostname, username, pkey_path, port, ssh_options, extra_args)
 
     if bastion:
-        return _combine_ssh_args(bastion_hostname, bastion_username, bastion_pkey_path, bastion_port, options='-At -o StrictHostKeyChecking=no -o ServerAliveInterval=10') + ' ' + res
+        return _combine_ssh_args(bastion_hostname, bastion_username, bastion_pkey_path, bastion_port, ssh_options='-At -o StrictHostKeyChecking=no -o ServerAliveInterval=10') + ' ' + res
     elif tunnel:
         return res + ' -ND ' + str(tunnel_port)
     else:

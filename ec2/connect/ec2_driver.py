@@ -45,7 +45,7 @@ def main():
     if instance_url:
         command = build_ssh_command(hostname=instance_url, username=cli_args_dict['user'],
                                     pkey_path=cli_args_dict['key'],
-                                    options='-o StrictHostKeyChecking=no -o ServerAliveInterval=10')
+                                    ssh_options='-o StrictHostKeyChecking=no -o ServerAliveInterval=10')
         print(command) if cli_args_dict['print'] else os.system(command)
     else:
         print('No EC2 instance with that name was found')
