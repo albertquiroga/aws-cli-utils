@@ -62,6 +62,12 @@ optional arguments:
 ```
 
 ## Useful links
+
+### AWS libs
+
+* https://w.amazon.com/index.php/BenderLib
+* https://code.amazon.com/packages/BenderLibIsengard/trees/mainline/--/src/isengard
+
 ### Python modules stuff
 * https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
 * https://stackoverflow.com/questions/15368054/import-error-on-installed-package-using-setup-py
