@@ -24,8 +24,9 @@ def match_against_regex(data, regex):
 
 
 def ask_for_input(prompt, default=None, regex=None):
-    new_prompt = (prompt + ' [%s]: ' % default) if default else (prompt + ': ')
+    new_prompt = f'{prompt} [{default}]: ' if default else f'{prompt}: '
     data = read_input(new_prompt)
+
     if data and regex:
         return match_against_regex(data, regex)
     else:

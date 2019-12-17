@@ -1,6 +1,7 @@
 import os
 import boto3
-from data_gather import gather_case_info
+
+from cases.data_gather import gather_case_info
 
 DDB_TABLE_NAME = 'cases'
 ddb = boto3.client('dynamodb')
@@ -23,7 +24,7 @@ def upload_case(case_dict):
 
 
 def create_case_file(case_id):
-    os.system('subl ' + CASE_PATH + 'case%s.txt' % case_id)  # TODO add support for more editors
+    os.system(f'subl {CASE_PATH} case{case_id}.txt')  # TODO add support for more editors
 
 
 def main():
@@ -33,6 +34,6 @@ def main():
 
     if response_code == 200:
         create_case_file(case_data['id'])
-        print("Case %s successfully created." % (case_data['id']))
+        print(f"Case {case_data['id']} successfully created.")
     else:
-        print('Error, HTTP status code was ' + str(response_code))
+        print(f'Error, HTTP status code was {str(response_code)}')

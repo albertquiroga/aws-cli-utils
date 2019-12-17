@@ -10,7 +10,7 @@ parser.add_argument('location', help='s3 path of the location to be crawled')
 cli_args_dict = vars(parser.parse_args())
 
 s3_path = format_location(cli_args_dict['location'])
-print('Target location: ' + s3_path)
+print(f'Target location: {s3_path}')
 
 
 def look_for_existing_crawler(s3_location):
@@ -34,7 +34,7 @@ def run_crawler(crawler_name):
     :param crawler_name: Name of the crawler to run
     :return: None
     """
-    print('Crawler found for the specified location. Running crawler ' + crawler_name)
+    print(f'Crawler found for the specified location. Running crawler {crawler_name}')
     glue.start_crawler(Name=crawler_name)
 
 
@@ -45,7 +45,7 @@ def create_and_run_crawler(s3_location):
     :return: None
     """
     crawler_name = s3_location.split('/')[-2]
-    print('Creating new crawler: ' + crawler_name)
+    print(f'Creating new crawler: {crawler_name}')
     glue.create_crawler(
         Name=crawler_name,
         Role='service-role/AWSGlueServiceRole-DefaultRole',
@@ -63,7 +63,7 @@ def create_and_run_crawler(s3_location):
         }
     )
 
-    print('Running new crawler: ' + crawler_name)
+    print(f'Running new crawler: {crawler_name}')
     glue.start_crawler(Name=crawler_name)
 
 
