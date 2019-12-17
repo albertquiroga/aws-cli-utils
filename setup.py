@@ -9,7 +9,8 @@ setup(
             'crawl=glue.crawl.__main__:main',
             'ec2=ec2.connect.__main__:main',
             'devendpoint=glue.devendpoint.__main__:main',
-            'emr=emr.connect.__main__:main'
+            'emr=emr.connect.__main__:main',
+            'awscase=cases.__main__:main'
         ]
     },
     install_requires=['boto3']
