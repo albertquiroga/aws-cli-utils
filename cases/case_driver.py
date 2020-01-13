@@ -24,7 +24,7 @@ def upload_case(case_dict):
 
 
 def create_case_file(case_id):
-    os.system(f'subl {CASE_PATH} case{case_id}.txt')  # TODO add support for more editors
+    os.system(f'subl {CASE_PATH}case{case_id}.txt')  # TODO add support for more editors
 
 
 def main():
