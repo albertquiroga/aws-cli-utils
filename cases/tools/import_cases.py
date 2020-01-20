@@ -1,6 +1,12 @@
 import boto3
+import argparse
 
-case_file = open('/Users/bertolb/cases.txt', 'r')
+parser = argparse.ArgumentParser(prog='import_cases', description='Import AWS PS cases into a DDB table')
+parser.add_argument('-f', '--file', action='store', default='/Users/bertolb/Downloads/cases.txt', help='Cases file in TSV format')
+parser.add_argument('-t', '--table', action='store', default='cases', help='Name of the DDB table')
+cli_args_dict = vars(parser.parse_args())
+
+case_file = open(cli_args_dict['file'], 'r')
 ddb = boto3.client('dynamodb')
 separator = '\t'
 
@@ -18,7 +24,7 @@ def process_line(line_to_process):
         if d[key]:
             item[key] = {"N" if key == "id" else "S": d[key]}
 
-    ddb.put_item(TableName='cases', Item=item)
+    ddb.put_item(TableName=cli_args_dict['table'], Item=item)
     print('Item with ID ' + d['id'] + ' has been inserted.')
 
 

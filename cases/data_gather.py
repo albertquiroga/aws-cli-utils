@@ -1,8 +1,6 @@
 import re
 import sys
-
-DATE_REGEX = '^\d{2}\/\d{2}\/\d{2}$'
-LINK_REGEX = 'https:\/\/paragon-na\.amazon\.com\/hz\/view-case\?caseId=\d+'
+from urllib.parse import urlparse
 
 
 def read_input(prompt):
@@ -40,7 +38,7 @@ def gather_case_info(args):
         args['title'] = ask_for_input("Case title")
 
     if not args['url']:
-        args['url'] = ask_for_input("Case URL", regex=LINK_REGEX)
+        args['url'] = ask_for_input("Case URL")
 
     if not args['description']:
         args['description'] = ask_for_input("Description")
@@ -48,6 +46,6 @@ def gather_case_info(args):
     if not args['notes']:
         args['notes'] = ask_for_input("Special notes")
 
-    args['case_id'] = args['url'].split('=')[1]  # TODO change this to properly get the URL's queryparam
+    args['case_id'] = urlparse(args['url']).query.split('=')[1]
 
     return args
