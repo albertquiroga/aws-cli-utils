@@ -10,8 +10,8 @@ setup(
             'ec2=ec2.connect.__main__:main',
             'devendpoint=glue.devendpoint.__main__:main',
             'emr=emr.connect.__main__:main',
-            'awscase=cases.__main__:main'
+            'pscase=pscase.__main__:main'
         ]
     },
-    install_requires=['boto3']
+    install_requires=['boto3', 'pyperclip']
 )
