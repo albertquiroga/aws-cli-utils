@@ -11,14 +11,16 @@ class PSCase(object):
 
     def __init__(self):
         parser = argparse.ArgumentParser(
-            description='Pretends to be git',
-            usage='''git <command> [<args>]
+            description='Manage AWS PS cases',
+            usage='''pscase <command> [<args>]
 
-            The most commonly used git commands are:
-               commit     Record changes to the repository
-               fetch      Download objects and refs from another repository
-            ''')
+The most commonly used git commands are:
+   new     Create and log a new case
+   open    Open a case's file
+        '''
+        )
         parser.add_argument('command', help='Subcommand to run')
+
         # parse_args defaults to [1:] for args, but you need to
         # exclude the rest of the args too, or validation will fail
         args = parser.parse_args(sys.argv[1:2])
