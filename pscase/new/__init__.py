@@ -1,6 +1,6 @@
 import os
 from urllib.parse import urlparse
-from pscase.utils import *
+from pscase.utils import get_case_path, get_ddb_table_name, ddb_client, TEXT_EDITOR_COMMAND
 import pyperclip
 
 
@@ -30,11 +30,11 @@ def gather_case_info(args):
     return args
 
 
-def upload_case(case_dict, test):
+def upload_case(case_dict, test_flag):
     """
     Uploads a given case to the DynamoDB table
     :param case_dict: Dictionary containing the case information
-    :param test: Boolean flag, if true upload to the testing table instead
+    :param test_flag: Boolean flag, if true upload to the testing table instead
     :return: Result of the put_item operation
     """
     item = {}
@@ -43,8 +43,7 @@ def upload_case(case_dict, test):
         if case_dict[key]:
             item[key] = {"N" if key == "id" else "S": case_dict[key]}
 
-    table_name = DDB_TABLE_NAME_TEST if test else DDB_TABLE_NAME
-    return ddb_client.put_item(TableName=table_name, Item=item)
+    return ddb_client.put_item(TableName=get_ddb_table_name(test_flag), Item=item)
 
 
 def create_case_file(case_id, test):
@@ -54,11 +53,12 @@ def create_case_file(case_id, test):
     :param test: Boolean flag, if true create in the testing folder instead
     :return: None
     """
-    case_path = CASE_PATH_TEST if test else CASE_PATH
-    os.system(f'{TEXT_EDITOR_COMMAND} {case_path}case{case_id}.txt')
+    os.system(f'{TEXT_EDITOR_COMMAND} {get_case_path(test)}case{case_id}.txt')
 
 
-def main(args):
+def create_new_case(args):
+    args = vars(args)
+    args.pop('func')
     test_flag = args.pop('test', None)
     case_data = gather_case_info(args)
     response = upload_case(case_data, test_flag)

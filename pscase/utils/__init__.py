@@ -3,19 +3,19 @@ import argparse
 import re
 
 # DDB vars
-DDB_TABLE_NAME = 'cases'
-DDB_TABLE_NAME_TEST = 'cases-test'
+_DDB_TABLE_NAME = 'cases'
+_DDB_TABLE_NAME_TEST = 'cases-test'
 ddb_client = boto3.client('dynamodb')
 ddb_resource = boto3.resource('dynamodb')
-last_case_id = ddb_client.scan(TableName=DDB_TABLE_NAME, Select='COUNT')['Count']
+last_case_id = ddb_client.scan(TableName=_DDB_TABLE_NAME, Select='COUNT')['Count']
 
 # CLI args
 DATE_REGEX = '^\d{2}\/\d{2}\/\d{2}$'
 URL_REGEX = 'https:\/\/paragon-na\.amazon\.com\/hz\/view-case\?caseId=\d+'
 
 # Other vars
-CASE_PATH = '$HOME/aws/cases/bigdata/'
-CASE_PATH_TEST = '$HOME/aws/cases/test/'
+_CASE_PATH = '$HOME/aws/cases/bigdata/'
+_CASE_PATH_TEST = '$HOME/aws/cases/test/'
 TEXT_EDITOR_COMMAND = 'subl'
 
 
@@ -33,3 +33,11 @@ def url_type(input_url, pattern=re.compile(URL_REGEX)):
         raise argparse.ArgumentTypeError
 
     return input_url
+
+
+def get_ddb_table_name(test_flag=False):
+    return _DDB_TABLE_NAME_TEST if test_flag else _DDB_TABLE_NAME
+
+
+def get_case_path(test_flag=False):
+    return _CASE_PATH_TEST if test_flag else _CASE_PATH
