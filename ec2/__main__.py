@@ -1,9 +1,9 @@
 import sys
-import ec2.connect.ec2_driver
+import ec2.ec2
 
 
 def main():
-    ec2.connect.ec2_driver.main()
+    ec2.ec2.main()
 
 
 if __name__ == '__main__':

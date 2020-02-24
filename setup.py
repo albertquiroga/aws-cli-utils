@@ -7,7 +7,7 @@ setup(
     entry_points={
         'console_scripts': [
             'crawl=glue.crawl.__main__:main',
-            'ec2=ec2.connect.__main__:main',
+            'ec2=ec2.__main__:main',
             'devendpoint=glue.devendpoint.__main__:main',
             'emr=emr.connect.__main__:main',
             'pscase=pscase.__main__:main'
