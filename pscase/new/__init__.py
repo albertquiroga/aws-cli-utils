@@ -1,52 +1,32 @@
 import os
-from urllib.parse import urlparse
-from pscase.utils import get_case_path, get_ddb_table_name, ddb_client, TEXT_EDITOR_COMMAND
 import pyperclip
+from pscase.utils.PSCase import PSCase
+from pscase.utils import get_case_path, upload_case_to_ddb, TEXT_EDITOR_COMMAND
 
 
-def gather_case_info(args):
+def _gather_missing_case_info(case):
     """
-    Checks the contents of the args dictionary, and if there any missing information it will ask the user for it
-    :param args: Args dictionary from argparse
+    Checks the contents of the provided case object, and if there any missing information it will ask the user for it
+    :param case: PSCase object representing the case
     :return: Properly-filled args dictionary
     """
-    if not args['topic']:
-        args['topic'] = input("Case topic: ")
+    if not case.case_id:
+        case.case_id = input("Case ID: ")
 
-    if not args['title']:
-        args['title'] = input("Case title: ")
+    if not case.topic:
+        case.topic = input("Case topic: ")
 
-    if not args['url']:
-        args['url'] = input("Case URL: ")
+    if not case.title:
+        case.title = input("Case title: ")
 
-    if not args['description']:
-        args['description'] = input("Description: ")
+    if not case.description:
+        case.description = input("Description: ")
 
-    if not args['notes']:
-        args['notes'] = input("Special notes: ")
-
-    args['case_id'] = urlparse(args['url']).query.split('=')[1]
-
-    return args
+    if not case.notes:
+        case.notes = input("Special notes: ")
 
 
-def upload_case(case_dict, test_flag):
-    """
-    Uploads a given case to the DynamoDB table
-    :param case_dict: Dictionary containing the case information
-    :param test_flag: Boolean flag, if true upload to the testing table instead
-    :return: Result of the put_item operation
-    """
-    item = {}
-
-    for key in case_dict.keys():
-        if case_dict[key]:
-            item[key] = {"N" if key == "id" else "S": case_dict[key]}
-    print(item)
-    return ddb_client.put_item(TableName=get_ddb_table_name(test_flag), Item=item)
-
-
-def create_case_file(case_id, test):
+def _create_case_file(case_id, test):
     """
     Creates the case text file in the right folder
     :param case_id: Local case ID
@@ -57,17 +37,14 @@ def create_case_file(case_id, test):
 
 
 def create_new_case(args):
-    print(args)
-    args = vars(args)
-    args.pop('func')
-    test_flag = args.pop('test', None)
-    case_data = gather_case_info(args)
-    response = upload_case(case_data, test_flag)
+    case = PSCase.from_namespace(args)
+    _gather_missing_case_info(case)
+    response = upload_case_to_ddb(case, args.test)
     response_code = response['ResponseMetadata']['HTTPStatusCode']
 
     if response_code == 200:
-        create_case_file(case_data['id'], test_flag)
-        pyperclip.copy(case_data['description'])
-        print(f"Case {case_data['id']} successfully created.")
+        _create_case_file(case.number, args.test)
+        pyperclip.copy(case.description)
+        print(f"Case {case.number} successfully created.")
     else:
-        print(f'Error, HTTP status code was {str(response_code)}')
+        print(f'Error, HTTP status code was {response_code}')
