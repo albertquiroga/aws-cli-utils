@@ -42,7 +42,7 @@ def upload_case(case_dict, test_flag):
     for key in case_dict.keys():
         if case_dict[key]:
             item[key] = {"N" if key == "id" else "S": case_dict[key]}
-
+    print(item)
     return ddb_client.put_item(TableName=get_ddb_table_name(test_flag), Item=item)
 
 

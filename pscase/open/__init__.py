@@ -1,7 +1,7 @@
-from pscase.utils import TEXT_EDITOR_COMMAND, get_case_path, ddb_resource, get_ddb_table_name
-from boto3.dynamodb.conditions import Attr
 import os
 import sys
+from pscase.utils import TEXT_EDITOR_COMMAND, get_case_path, ddb_resource, get_ddb_table_name
+from boto3.dynamodb.conditions import Attr
 
 
 def _exit_because_no_case_found():

@@ -1,6 +1,7 @@
 import argparse
 from pscase.new import create_new_case
 from pscase.open import open_case
+from pscase.bulkload import bulk_load
 from pscase.utils import last_case_id, date_type, url_type
 from datetime import date
 
@@ -25,6 +26,12 @@ parser_new.set_defaults(func=create_new_case)
 parser_open = subparsers.add_parser('open')
 parser_open.add_argument('id', action='store', help='Paragon case ID')
 parser_open.set_defaults(func=open_case)
+
+# create the parser for the "bulkload" command
+parser_bulkload = subparsers.add_parser('bulkload')
+parser_bulkload.add_argument('file', help='TSV file to upload')
+parser_bulkload.add_argument('--test', action='store_true', default=False, help='Load to test DDB table instead')
+parser_bulkload.set_defaults(func=bulk_load)
 
 
 def main():

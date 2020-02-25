@@ -41,3 +41,13 @@ def get_ddb_table_name(test_flag=False):
 
 def get_case_path(test_flag=False):
     return _CASE_PATH_TEST if test_flag else _CASE_PATH
+
+
+def upload_case_to_ddb(case, test_flag):
+    """
+    Uploads a given case to the DynamoDB table
+    :param case: PSCase object with the case data
+    :param test_flag: Boolean flag, if true upload to the testing table instead
+    :return: Result of the put_item operation
+    """
+    return ddb_client.put_item(TableName=get_ddb_table_name(test_flag), Item=case.to_ddb_item())
