@@ -1,7 +1,8 @@
 import os
 import sys
-from pscase.utils import TEXT_EDITOR_COMMAND, get_case_path, ddb_resource, get_ddb_table_name
 from boto3.dynamodb.conditions import Attr
+from pscase.utils.PSCase import PSCase
+from pscase.utils import TEXT_EDITOR_COMMAND, get_case_path, ddb_resource, get_ddb_table_name
 
 
 def _exit_because_no_case_found():
@@ -19,12 +20,23 @@ def _open_case_file(case):
     :param case: Dictionary containing the case data
     :return: None
     """
-    print(f'Opening case {case["case_id"]}')
-    os.system(f'{TEXT_EDITOR_COMMAND} {get_case_path()}case{case["id"]}.txt')
+    print(f'Opening case {case.case_id}')
+    os.system(f'{TEXT_EDITOR_COMMAND} {get_case_path()}case{case.number}.txt')
 
 
 def open_case(args):
-    case_id = args.id
     table = ddb_resource.Table(get_ddb_table_name())
-    results = table.scan(FilterExpression=Attr("case_id").eq(case_id))["Items"]
+    response = table.get_item(Key={'case_id': int(args.id)})
+
+    if 'Item' in response:
+        case = PSCase.from_dictionary(response['Item'])
+        _open_case_file(case)
+    else:
+        _exit_because_no_case_found()
+
+
+def open_case_from_number(args):
+    table = ddb_resource.Table(get_ddb_table_name())
+    results = table.scan(FilterExpression=Attr("number").eq(args.number))["Items"]
     _exit_because_no_case_found() if not results else _open_case_file(results[0])
+

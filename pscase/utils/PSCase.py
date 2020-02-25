@@ -11,7 +11,8 @@ class PSCase:
     @classmethod
     def from_dictionary(cls, dictionary):
         return cls(number=dictionary['number'], date=dictionary['date'], case_id=dictionary['case_id'], title=dictionary['title'],
-                   topic=dictionary['topic'], description=dictionary['description'], notes=dictionary['notes'])
+                   topic=dictionary['topic'], description=dictionary['description'] if 'descripton' in dictionary else '',
+                   notes=dictionary['notes'] if 'notes' in dictionary else '')
 
     @classmethod
     def from_namespace(cls, namespace):
