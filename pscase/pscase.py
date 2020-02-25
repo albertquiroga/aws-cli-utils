@@ -35,6 +35,10 @@ parser_bulkload.set_defaults(func=bulk_load)
 
 
 def main():
+    """
+    Main function. Evaluates the CLI args and prints the help message if there are none
+    :return: None
+    """
     args = parser.parse_args()
 
     if not len(vars(args)) == 0:
