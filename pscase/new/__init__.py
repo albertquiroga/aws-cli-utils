@@ -57,6 +57,7 @@ def create_case_file(case_id, test):
 
 
 def create_new_case(args):
+    print(args)
     args = vars(args)
     args.pop('func')
     test_flag = args.pop('test', None)
