@@ -43,7 +43,7 @@ class PSCase:
     def to_ddb_item(self):
         """
         Turns the PSCase object into a dictionary with the right format for DDB
-        :return: DDB-formatted dicitionary with the case data
+        :return: DDB-formatted dictionary with the case data
         """
         item = {"number": {"N": self.number},
                 "case_id": {"N": self.case_id},
