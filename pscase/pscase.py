@@ -24,7 +24,10 @@ parser_new.set_defaults(func=create_new_case)
 
 # Open command
 parser_open = subparsers.add_parser('open')
-parser_open.add_argument('id', action='store', help='Paragon case ID')
+parser_open_group = parser_open.add_mutually_exclusive_group()
+parser_open_group.add_argument('-i', '--id', action='store', type=int, help='Open a case file with its Paragon case ID')
+parser_open_group.add_argument('-n', '--number', action='store', type=int,
+                               help='Open a Paragon case with a case number instead)')
 parser_open.set_defaults(func=open_case)
 
 # Bulkload command

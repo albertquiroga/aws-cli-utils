@@ -85,4 +85,4 @@ def get_ddb_case_from_number(number):
     # TODO Implement this
     table = _ddb_resource.Table(get_ddb_table_name())
     results = table.scan(FilterExpression=Attr("number").eq(number))["Items"]
-    #_exit_because_no_case_found() if not results else _open_case_file(results[0])
+    return PSCase.from_dictionary(results[0])
