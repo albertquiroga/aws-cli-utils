@@ -70,10 +70,7 @@ def get_ddb_case_from_case_id(case_id):
     """
     table = _ddb_resource.Table(get_ddb_table_name())
     response = table.get_item(Key={'case_id': int(case_id)})
-    if 'Item' in response:
-        return PSCase.from_dictionary(response['Item'])
-    else:
-        return None
+    return PSCase.from_dictionary(response['Item']) if 'Item' in response else None
 
 
 def get_ddb_case_from_number(number):
@@ -82,7 +79,6 @@ def get_ddb_case_from_number(number):
     :param number: Number of the case to retrieve
     :return: PSCase or None, depending on whether the case existed on the table
     """
-    # TODO Implement this
     table = _ddb_resource.Table(get_ddb_table_name())
     results = table.scan(FilterExpression=Attr("number").eq(number))["Items"]
-    return PSCase.from_dictionary(results[0])
+    return PSCase.from_dictionary(results[0]) if len(results) > 0 else None
