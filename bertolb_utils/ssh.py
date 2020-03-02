@@ -1,8 +1,11 @@
-import ipaddress
+import re
 import boto3
+import ipaddress
+
 
 ec2 = boto3.client('ec2')
 
+AWS_HOSTNAME_PATTERN = '(?:ec2|ip)-(\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}).*'
 DEFAULT_SSH_OPTIONS = '-At -o StrictHostKeyChecking=no -o ServerAliveInterval=10'
 
 
@@ -16,7 +19,8 @@ class ConnectionParams:
 
 
 def extract_ip_address_from_aws_hostname(aws_hostname):
-    return aws_hostname.split('.')[0][3:].replace('-', '.')
+    match = re.search(AWS_HOSTNAME_PATTERN, aws_hostname)
+    return match.group(1).replace('-', '.')
 
 
 def find_ec2_instance_address_by_name(instance_name):
