@@ -1,4 +1,5 @@
 import boto3
+from functools import reduce
 
 ec2_client = boto3.client('ec2')
 ec2_resource = boto3.resource('ec2')
@@ -6,7 +7,7 @@ ec2_resource = boto3.resource('ec2')
 TABLE_HEADERS = ['Name', 'Instance ID', 'Private IP address', 'Public IP address']
 
 
-def list_ec2_instances():
+def list_ec2_instances(args):
     """
     Prints all EC2 instances in a tabular fashion
     :return: None
@@ -59,15 +60,13 @@ def _print_row(name, instance_id, private_ip_address, public_ip_address):
     print('{:<20} {:<20} {:<20} {:<20}'.format(name, instance_id, private_ip_address, public_ip_address))
 
 
-def _extract_name_from_tags(tags_list):
+def _extract_name_from_tags(tag_list):
     """
-    Extracts the value of the 'Name' tag of an EC2 instance
-    :param tags_list: List of tags for an EC2 instance
+    Extracts the value of the 'Name' tag of an EC2 instance. Filters all tag dictionaries to get the one where the key
+    is 'Name', then extracts the value from it. If there's several 'Name' tags, it uses the first one always
+    :param tag_list: List of tags for an EC2 instance
     :return: Name value
     """
-    name_dict = {}
-    for tag in tags_list:
-        if tag['Key'] == 'Name':
-            name_dict = tag
-
-    return name_dict['Value'] if name_dict else ''
+    filtered_tag_list = list(filter(lambda tag: tag['Key'] == 'Name', tag_list))
+    names = list(map(lambda tag: tag['Value'], filtered_tag_list))
+    return reduce(lambda a, b: a, names) if len(names) > 0 else ''
