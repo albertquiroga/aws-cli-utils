@@ -1,9 +1,9 @@
 import sys
-import emr.connect.emr_driver
+import emr.emr
 
 
 def main():
-    emr.connect.emr_driver.main()
+    emr.emr.main()
 
 
 if __name__ == '__main__':
