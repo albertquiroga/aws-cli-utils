@@ -7,6 +7,7 @@ ec2_resource = boto3.resource('ec2')
 TABLE_HEADERS = ['Name', 'Instance ID', 'Private IP address', 'Public IP address']
 
 
+# noinspection PyUnusedLocal
 def list_ec2_instances(args):
     """
     Prints all EC2 instances in a tabular fashion
@@ -45,7 +46,8 @@ def _print_instances(instances):
     """
     _print_row(*TABLE_HEADERS)
     for instance in instances:
-        _print_row(_extract_name_from_tags(instance.tags), instance.id, instance.private_ip_address, instance.public_ip_address)
+        _print_row(_extract_name_from_tags(instance.tags), instance.id,
+                   instance.private_ip_address, instance.public_ip_address)
 
 
 def _print_row(name, instance_id, private_ip_address, public_ip_address):

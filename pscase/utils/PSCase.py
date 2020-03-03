@@ -33,7 +33,8 @@ class PSCase:
     @classmethod
     def from_namespace(cls, namespace):
         """
-        Creates a PSCase object from a namespace one, this can be used for example to create a case from argparse CLI args
+        Creates a PSCase object from a namespace one, this can be used for example
+        to create a case from argparse CLI args
         :param namespace: Namespace object containing the case data
         :return: PSCase object
         """

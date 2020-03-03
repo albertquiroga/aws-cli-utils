@@ -1,24 +1,14 @@
-def format_location(raw_location):
-    if raw_location.endswith('/'):
-        return raw_location
-    else:
-        return raw_location + '/'
+import re
+
+DEFAULT_SSH_OPTIONS = '-At -o StrictHostKeyChecking=no -o ServerAliveInterval=10'
+AWS_HOSTNAME_PATTERN = r'(?:ec2|ip)-(\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}).*'
 
 
-def _combine_ssh_args(hostname, username, key_path=None, port=22, ssh_options='', extra_args=''):
-    import re
-    command = "ssh %s %s %s@%s -p %i %s"%(ssh_options, "-i " + key_path if key_path else '', username, hostname, port, extra_args)
-    return re.sub(' +', ' ', command.strip())  # Remove leading/trailing spaces plus double spaces in the middle
-
-
-def build_ssh_command(hostname, username, pkey_path, port=22, ssh_options='', extra_args='',
-                      tunnel=False, tunnel_port=8157,
-                      bastion=False, bastion_hostname='', bastion_username='', bastion_pkey_path='', bastion_port=22):
-    res = _combine_ssh_args(hostname, username, pkey_path, port, ssh_options, extra_args)
-
-    if bastion:
-        return _combine_ssh_args(bastion_hostname, bastion_username, bastion_pkey_path, bastion_port, ssh_options='-At -o StrictHostKeyChecking=no -o ServerAliveInterval=10', extra_args=res)
-    elif tunnel:
-        return res + ' -ND ' + str(tunnel_port)
-    else:
-        return res
+def extract_ip_address_from_aws_hostname(aws_hostname):
+    """
+    Extracts an IP address from a provided AWS hostname using regular expression capture groups
+    :param aws_hostname: AWS hostname
+    :return: IP address
+    """
+    match = re.search(AWS_HOSTNAME_PATTERN, aws_hostname)
+    return match.group(1).replace('-', '.')

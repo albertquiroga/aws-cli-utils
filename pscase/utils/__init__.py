@@ -12,7 +12,7 @@ _ddb_resource = boto3.resource('dynamodb')
 last_case_id = _ddb_client.scan(TableName=_DDB_TABLE_NAME, Select='COUNT')['Count']
 
 # CLI args
-DATE_REGEX = '^\d{2}\/\d{2}\/\d{2}$'
+DATE_REGEX = r'^\d{2}\/\d{2}\/\d{2}$'
 
 # Other vars
 _CASE_PATH = '$HOME/aws/cases/bigdata/'

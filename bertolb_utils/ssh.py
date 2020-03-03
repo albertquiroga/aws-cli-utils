@@ -1,55 +1,52 @@
-import re
-import boto3
-import ipaddress
+from ipaddress import ip_address
+
+from bertolb_utils.ec2 import find_ec2_instance_address_by_name
+from bertolb_utils.ConnectionParams import ConnectionParams
+
+bastion_params = ConnectionParams(host=find_ec2_instance_address_by_name('bertolb'), username='ec2-user')
 
 
-ec2 = boto3.client('ec2')
-
-AWS_HOSTNAME_PATTERN = '(?:ec2|ip)-(\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}).*'
-DEFAULT_SSH_OPTIONS = '-At -o StrictHostKeyChecking=no -o ServerAliveInterval=10'
-
-
-class ConnectionParams:
-    def __init__(self, host, username, port=22, key="", options=DEFAULT_SSH_OPTIONS):
-        self.host = host
-        self.port = port
-        self.username = username
-        self.key = key
-        self.options = options
-
-
-def extract_ip_address_from_aws_hostname(aws_hostname):
-    match = re.search(AWS_HOSTNAME_PATTERN, aws_hostname)
-    return match.group(1).replace('-', '.')
-
-
-def find_ec2_instance_address_by_name(instance_name):
-    response = ec2.describe_instances(Filters=[{'Name': 'tag:Name', 'Values': [instance_name]}, {'Name': 'instance-state-name', 'Values': ['running']}])
-    if response['Reservations']:
-        instance = response['Reservations'][0]['Instances'][0]
-        return instance['PublicIpAddress'] if 'PublicIpAddress' in instance else instance['PrivateIpAddress']
-    else:
-        return None
-
-
-def _compose_ssh_command(params):
-    command = f'ssh {params.options} {f"-i {params.key}" if params.key else ""} {params.username}@{params.host} -p {params.port}'
-    return " ".join(command.split())  # Remove the unnecessary spaces
+def build_ssh_command(address, username, pkey_path="", port=22, options=""):
+    """
+    Builds an SSH command to connect to an EC2 instance. If the provided address is private,
+    it will add an in-between bastion instance to make the connection possible
+    :param address: Address to connect to
+    :param username: Username to use in the connection
+    :param pkey_path: Path to the private key file to use in the connection
+    :param port: SSH port
+    :param options: Additional options to add to the command
+    :return: SSH command
+    """
+    params = ConnectionParams(host=address, port=port, username=username, key=pkey_path, options=options)
+    return _compose_with_bastion(params) if ip_address(address).is_private else _compose_without_bastion(params)
 
 
 def _compose_with_bastion(params):
+    """
+    Writes an SSH command with an in-between bastion instance
+    :param params: ConnectionParams object
+    :return: SSH command
+    """
     bastion_command = _compose_ssh_command(bastion_params)
     instance_command = _compose_ssh_command(params)
     return f'{bastion_command} {instance_command}'
 
 
 def _compose_without_bastion(params):
+    """
+    Writes an SSH command without an in-between bastion instance
+    :param params: ConnectionParams object
+    :return: SSH command
+    """
     return _compose_ssh_command(params)
 
 
-bastion_params = ConnectionParams(host=find_ec2_instance_address_by_name('bertolb'), username='ec2-user')
-
-
-def build_ssh_command(address, username, pkey_path="", port=22, options=""):
-    connection_params = ConnectionParams(host=address, port=port, username=username, key=pkey_path, options=options)
-    return _compose_with_bastion(connection_params) if ipaddress.ip_address(address).is_private else _compose_without_bastion(connection_params)
+def _compose_ssh_command(params):
+    """
+    Provided a ConnectionParams object, writes an SSH command with its properties
+    :param params: ConnectionParams object
+    :return: SSH command
+    """
+    command = f'ssh {params.options} {f"-i {params.key}" if params.key else ""} ' \
+              f'{params.username}@{params.host} -p {params.port}'
+    return " ".join(command.split())  # Remove the unnecessary spaces
