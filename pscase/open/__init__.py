@@ -2,7 +2,7 @@ import os
 import sys
 from pscase.utils import TEXT_EDITOR_COMMAND, get_case_path, get_ddb_case_from_case_id, get_ddb_case_from_number
 
-_PARAGON_URL_BASE = 'https://paragon-na.amazon.com/hz/view-case?caseId='
+_PARAGON_BASE_URL = 'https://paragon-na.amazon.com/hz/view-case?caseId='
 
 
 def open_case(args):
@@ -11,7 +11,7 @@ def open_case(args):
     :param args: Namespace object containing CLI args
     :return: None
     """
-    _open_case_from_case_id(args.case_id) if args.id is not None else _open_case_from_case_number(args.number)
+    _open_case_from_case_id(args.id) if args.id else _open_case_from_case_number(args.number)
 
 
 def _open_case_from_case_id(case_id):
@@ -40,7 +40,7 @@ def _open_paragon_case(case):
     :param case: PSCase object with the case data
     :return: None
     """
-    os.system(f'open {_PARAGON_URL_BASE}{case.case_id}')
+    os.system(f'open {_PARAGON_BASE_URL}{case.case_id}')
 
 
 def _open_case_file(case):
