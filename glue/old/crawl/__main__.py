@@ -1,9 +1,9 @@
 import sys
-import glue.crawl.crawl_driver
+import glue.old.crawl.crawl_driver
 
 
 def main():
-    glue.crawl.crawl_driver.main()
+    glue.old.crawl.crawl_driver.main()
 
 
 if __name__ == '__main__':

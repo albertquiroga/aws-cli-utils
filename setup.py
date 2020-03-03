@@ -6,12 +6,11 @@ setup(
     packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'crawl=glue.crawl.__main__:main',
+            'glue=glue.__main__:main',
             'ec2=ec2.__main__:main',
-            'devendpoint=glue.devendpoint.__main__:main',
             'emr=emr.__main__:main',
             'pscase=pscase.__main__:main'
         ]
     },
-    install_requires=['boto3', 'pyperclip']
+    install_requires=['boto3', 'pyperclip', 'botocore']
 )
