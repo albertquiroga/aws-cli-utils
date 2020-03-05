@@ -23,7 +23,7 @@ def _look_for_existing_crawler(s3_location):
     :return: Name of the crawler, or None
     """
     crawler_list = glue_client.get_crawlers()['Crawlers']
-    return _process_crawlers(crawler_list, s3_location) if len(crawler_list) > 0 else None
+    return _process_crawlers(crawler_list, s3_location) if crawler_list else None
 
 
 def _process_crawlers(crawler_list, s3_location):
@@ -45,7 +45,7 @@ def _process_crawlers(crawler_list, s3_location):
 
     filtered_crawlers = list(filter(_filter_crawler, crawler_list))
     crawler_names = list(map(lambda crawler: crawler['Name'], filtered_crawlers))
-    return reduce(lambda a, b: a, crawler_names)
+    return reduce(lambda a, b: a, crawler_names) if len(crawler_names) > 0 else None
 
 
 def _run_existing_crawler(crawler_name):
