@@ -3,7 +3,7 @@ from glue.crawl import crawl
 from glue.connect import connect_to_dev_endpoint
 from glue.notebook import connect_to_notebook
 
-DEFAULT_DEV_ENDPOINT_NAME = 's3'
+DEFAULT_DEV_ENDPOINT_NAME = 'bertolb'
 
 # Top-level parser
 parser = argparse.ArgumentParser(prog='glue', description='CLI tool to manage Glue resources')
