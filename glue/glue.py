@@ -1,6 +1,7 @@
 import argparse
 from glue.crawl import crawl
 from glue.connect import connect_to_dev_endpoint
+from glue.notebook import connect_to_notebook
 
 DEFAULT_DEV_ENDPOINT_NAME = 's3'
 
@@ -19,9 +20,13 @@ parser_connect.set_defaults(func=connect_to_dev_endpoint)
 
 # Crawl command
 parser_crawl = subparsers.add_parser('crawl', description='Run a crawler')
-parser_crawl.add_argument('path', type=str,
-                          help='s3 path to be crawled')
+parser_crawl.add_argument('path', type=str, help='s3 path to be crawled')
 parser_crawl.set_defaults(func=crawl)
+
+# Notebook command
+parser_notebook = subparsers.add_parser('notebook', description='Connect to a Notebook')
+parser_notebook.add_argument('name', type=str, help='Name of the notebook to connect to. Partial match allowed!')
+parser_notebook.set_defaults(func=connect_to_notebook)
 
 
 def main():
