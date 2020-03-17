@@ -1,4 +1,4 @@
-# bertolb-tools
+# AWS CLI Utils
 Tooling for AWS
 
 ## Installation
