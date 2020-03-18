@@ -1,6 +1,6 @@
 import os
 import sys
-from bertolb_utils.ssh import build_ssh_command
+from common_utils.ssh import build_ssh_command
 from emr.utils import get_cluster_id_from_identifier, find_master_node_hostname
 
 

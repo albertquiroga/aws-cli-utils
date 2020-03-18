@@ -1,4 +1,4 @@
-from bertolb_utils import DEFAULT_SSH_OPTIONS
+from common_utils import DEFAULT_SSH_OPTIONS
 
 
 class ConnectionParams:

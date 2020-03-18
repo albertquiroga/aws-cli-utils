@@ -8,7 +8,7 @@ DEFAULT_USERNAME = 'ec2-user'
 DEFAULT_PORT = 22
 
 # Top-level parser
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(prog='ec2', description='CLI tool to manage EC2 resources')
 subparsers = parser.add_subparsers()
 
 # Connect command

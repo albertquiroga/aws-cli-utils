@@ -1,5 +1,5 @@
 import boto3
-from bertolb_utils import extract_ip_address_from_aws_hostname
+from common_utils import extract_ip_address_from_aws_hostname
 
 emr_client = boto3.client('emr')
 

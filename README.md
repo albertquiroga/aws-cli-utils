@@ -1,77 +1,66 @@
 # AWS CLI Utils
-Tooling for AWS
+A set of high-level CLI commands to manage and access AWS resources. 
 
 ## Installation
 
 Start by cloning the repo:
 
 ```
-git clone https://github.com/albertquiroga/bertolb-tools.git
+git clone https://github.com/albertquiroga/aws-cli-utils.git
 ```
 
 Then install it with pip:
 
 ```
-pip install --user -e bertolb-tools
+pip install --user aws-cli-utils
 ```
 
-## Tools
-### crawl
+## CLI Commands
+Right now the package offers commands for EC2, EMR and Glue. 
+
+### EC2
+The EC2 command lets you list EC2 instances and then easily connect (SSH) to them by their name tag
 
 ```
-usage: crawl [-h] location
+usage: ec2 [-h] {connect,list} ...
 
-Crawl an S3 location
+CLI tool to manage EC2 resources
 
 positional arguments:
-  location    S3 path of the location to be crawled
+  {connect,list}
 
 optional arguments:
-  -h, --help  show this help message and exit
+  -h, --help      show this help message and exit
 ```
 
-### ec2
+### EMR
+
+The EMR command lets you easily connect (SSH) to EMR clusters by name and list all their information 
 
 ```
-usage: ec2 [-h] [-n NAME] [-u USER] [-k KEYPAIR]
+usage: emr [-h] {connect,info} ...
 
-Connect and manage EC2 instances
+CLI tool to manage EMR resources
+
+positional arguments:
+  {connect,info}
+
+optional arguments:
+  -h, --help      show this help message and exit
+```
+
+### Glue
+
+The Glue command lets you crawl S3 paths and connect to Development Endpoints and SageMaker notebooks easily by name 
+
+```
+usage: glue [-h] {connect,crawl,notebook} ...
+
+CLI tool to manage Glue resources
+
+positional arguments:
+  {connect,crawl,notebook}
 
 optional arguments:
   -h, --help            show this help message and exit
-  -n NAME, --name NAME  Connect to the specified EC2 instance name (tag:Name)
-  -u USER, --user USER  Username to use in the login
-  -k KEYPAIR, --keypair KEYPAIR
-                        Path to SSH keypair to use
 ```
-
-### devendpoint
-
-```
-usage: devendpoint [-h] [-n NAME] [-k KEY] [-p] [-l {python,scala,none}]
-
-Connect to Glue dev endpoints
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -n NAME, --name NAME  name of the dev endpoint to connect to
-  -k KEY, --key KEY     path to private SSH key to use
-  -p, --print           print SSH command instead of running it
-  -l {python,scala,none}, --language {python,scala,none}
-                        what REPL to launch (or none). Default: python
-```
-
-## Useful links
-
-### AWS libs
-
-* https://w.amazon.com/index.php/BenderLib
-* https://code.amazon.com/packages/BenderLibIsengard/trees/mainline/--/src/isengard
-
-### Python modules stuff
-* https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
-* https://stackoverflow.com/questions/15368054/import-error-on-installed-package-using-setup-py
-* https://python-packaging-tutorial.readthedocs.io/en/latest/setup_py.html
-* https://stackoverflow.com/questions/1471994/what-is-setup-py
-* https://chriswarrick.com/blog/2014/09/15/python-apps-the-right-way-entry_points-and-scripts/
-* https://stackoverflow.com/questions/27494758/how-do-i-make-a-python-script-executable

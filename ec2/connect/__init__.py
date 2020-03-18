@@ -1,5 +1,5 @@
 import os
-from bertolb_utils.ssh import build_ssh_command, find_ec2_instance_address_by_name
+from common_utils.ssh import build_ssh_command, find_ec2_instance_address_by_name
 
 
 def connect_to_ec2_instance(args):

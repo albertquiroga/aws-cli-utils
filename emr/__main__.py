@@ -6,7 +6,7 @@ from emr.info import print_emr_cluster_info
 DEFAULT_CLUSTER_NAME = 'bertolb'
 
 # Top-level parser
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(prog='emr', description='CLI tool to manage EMR resources')
 subparsers = parser.add_subparsers()
 
 # Connect command
