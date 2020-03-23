@@ -1,5 +1,5 @@
 import boto3
-from common_utils import extract_ip_address_from_aws_hostname
+from commons import extract_ip_address_from_aws_hostname
 
 emr_client = boto3.client('emr')
 
