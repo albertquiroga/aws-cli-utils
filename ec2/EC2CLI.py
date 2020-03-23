@@ -10,12 +10,10 @@ class EC2CLI(CLITool):
 
     def __init__(self):
         super(EC2CLI, self).__init__(name='ec2', description='CLI tool to manage EC2 resources', config_key='EC2',
-                                     key_parameters=['name'])
-
-        subparsers = self.parser.add_subparsers()
+                                     key_parameters={'connect': ['name'], 'list': []})
 
         # Connect command
-        parser_connect = subparsers.add_parser('connect')
+        parser_connect = self.subparsers.add_parser('connect')
         parser_connect.add_argument('name', type=str, nargs='?', default=self.config.get('DefaultInstanceName', ''))
         parser_connect.add_argument('-k', '--key', type=str)
         parser_connect.add_argument('-u', '--user', type=str,
@@ -26,5 +24,5 @@ class EC2CLI(CLITool):
         parser_connect.set_defaults(func=connect_to_ec2_instance)
 
         # List command
-        parser_list = subparsers.add_parser('list')
+        parser_list = self.subparsers.add_parser('list')
         parser_list.set_defaults(func=list_ec2_instances)

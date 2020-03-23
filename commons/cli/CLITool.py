@@ -10,6 +10,7 @@ class CLITool:
 
     def __init__(self, name, description, config_key, key_parameters=None):
         self.parser = argparse.ArgumentParser(prog=name, description=description)
+        self.subparsers = self.parser.add_subparsers(dest="subparser_name")
         self.config = load_user_configuration_file()[config_key]
         self.key_parameters = key_parameters
 
@@ -19,17 +20,18 @@ class CLITool:
         :return: None
         """
         args = self.parser.parse_args()
+        subcommand = args.subparser_name
 
         if not len(vars(args)) == 0:
-            self._validate_cli_key_parameters(args)
+            self._validate_cli_key_parameters(args, subcommand)
             args.func(args)
         else:
             self.parser.print_help()
             sys.exit(1)
 
-    def _validate_cli_key_parameters(self, args):
+    def _validate_cli_key_parameters(self, args, subcommand):
         args_dict = vars(args)
-        mapped = list(map(lambda parameter: (parameter, args_dict[parameter]), self.key_parameters))
+        mapped = list(map(lambda parameter: (parameter, args_dict[parameter]), self.key_parameters[subcommand]))
         for key_parameter in mapped:
             self._validate_key_parameter(key_parameter)
 
