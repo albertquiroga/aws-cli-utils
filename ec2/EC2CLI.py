@@ -10,7 +10,7 @@ class EC2CLI(CLITool):
 
     def __init__(self):
         super(EC2CLI, self).__init__(name='ec2', description='CLI tool to manage EC2 resources', config_key='EC2',
-                                     key_parameters={'connect': ['name'], 'list': []})
+                                     key_parameters={'connect': ['name']})
 
         # Connect command
         parser_connect = self.subparsers.add_parser('connect')

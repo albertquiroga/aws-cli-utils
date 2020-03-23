@@ -20,10 +20,9 @@ class CLITool:
         :return: None
         """
         args = self.parser.parse_args()
-        subcommand = args.subparser_name
 
         if not len(vars(args)) == 0:
-            self._validate_cli_key_parameters(args, subcommand)
+            self._validate_cli_key_parameters(args, args.subparser_name) if args.subparser_name in self.key_parameters else None
             args.func(args)
         else:
             self.parser.print_help()
