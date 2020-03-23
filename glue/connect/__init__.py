@@ -2,8 +2,8 @@ import os
 import sys
 import boto3
 from botocore.exceptions import ClientError
-from common_utils.ssh import build_ssh_command
-from common_utils import extract_ip_address_from_aws_hostname
+from commons.ssh import build_ssh_command
+from commons import extract_ip_address_from_aws_hostname
 
 glue_client = boto3.client('glue')
 

@@ -28,5 +28,5 @@ setup(
         "Topic :: Utilities"
     ],
     install_requires=['boto3', 'botocore'],
-    python_requires='>=3.6'  # TODO check the minimum version
+    python_requires='>=3.5'  # TODO check the minimum version
 )

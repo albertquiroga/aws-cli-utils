@@ -1,6 +1,6 @@
 import os
 import sys
-from common_utils.ssh import build_ssh_command
+from commons.ssh import build_ssh_command
 from emr.utils import get_cluster_id_from_identifier, find_master_node_hostname
 
 
