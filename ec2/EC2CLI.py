@@ -13,16 +13,19 @@ class EC2CLI(CLITool):
                                      key_parameters={'connect': ['name']})
 
         # Connect command
-        parser_connect = self.subparsers.add_parser('connect')
-        parser_connect.add_argument('name', type=str, nargs='?', default=self.config.get('DefaultInstanceName', ''))
-        parser_connect.add_argument('-k', '--key', type=str)
+        parser_connect = self.subparsers.add_parser(name='connect', description='Connect to an EC2 instance via SSH')
+        parser_connect.add_argument('name', type=str, nargs='?', default=self.config.get('DefaultInstanceName', ''),
+                                    help='Name tag of the EC2 instance to connect to')
+        parser_connect.add_argument('-k', '--key', type=str, help='Path to private key file to use for authentication')
         parser_connect.add_argument('-u', '--user', type=str,
-                                    default=self.config.get('DefaultUsername', DEFAULT_USERNAME))
-        parser_connect.add_argument('-p', '--port', type=int, default=self.config.get('DefaultPort', DEFAULT_PORT))
+                                    default=self.config.get('DefaultUsername', DEFAULT_USERNAME),
+                                    help='Username to be used in the connection')
+        parser_connect.add_argument('-p', '--port', type=int, default=self.config.get('DefaultPort', DEFAULT_PORT),
+                                    help='Port to connect to')
         parser_connect.add_argument('-P', '--print', action='store_true', default=False,
                                     help='print the SSH command instead of executing it')
         parser_connect.set_defaults(func=connect_to_ec2_instance)
 
         # List command
-        parser_list = self.subparsers.add_parser('list')
+        parser_list = self.subparsers.add_parser(name='list', description='List all EC2 instances')
         parser_list.set_defaults(func=list_ec2_instances)

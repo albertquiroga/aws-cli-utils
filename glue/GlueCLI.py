@@ -25,7 +25,8 @@ class GlueCLI(CLITool):
         parser_crawl.set_defaults(func=crawl)
 
         # Notebook command
-        parser_notebook = self.subparsers.add_parser('notebook', description='Connect to a Notebook')
+        parser_notebook = self.subparsers.add_parser(name='notebook', description='Connect to a SageMaker Notebook '
+                                                                                  'attached to a Dev Endpoint')
         parser_notebook.add_argument('name', type=str, nargs='?', default=self.config.get('DefaultNotebookName', ''),
                                      help='Name of the notebook to connect to. Partial match allowed!')
         parser_notebook.set_defaults(func=connect_to_notebook)
