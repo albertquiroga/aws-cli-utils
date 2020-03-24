@@ -1,5 +1,5 @@
 import sys
-from argparse import Namespace
+from argparse import Namespace, ArgumentParser
 from pathlib import Path
 
 from commons import load_user_configuration_file
@@ -8,11 +8,36 @@ CONFIG_FILE_PATH = f'{str(Path.home())}/.aws-cli-utils'
 
 
 class CLITool:
+    """Superclass for all CLI tools, designed to automate common tasks
 
-    def __init__(self, name: str, description: str, config_key: str, key_parameters: dict = None):
-        self.parser = argparse.ArgumentParser(prog=name, description=description)
+       Attributes
+       ----------
+       name: str
+           The name of the CLI tool. This will be the 'prog' parameter of the argparse.ArgumentParser
+
+       description: str
+           Description of the CLI tool. This will be he 'description' parameter of the argparse.ArgumentParser
+
+       config_section: str
+           Name of the corresponding section in the configuration file
+
+       key_parameters: dict
+           Dictionary that defines key parameters for each subcommand of a tool. A key parameter is one for which a
+           value must be provided. This is similar to positional arguments in argparse, but lets you have empty
+           positional arguments as long as a default value is provided in the configuration file
+
+        Methods
+        -------
+        main(None)
+            Runs the CLI tool. The method will first check that CLI arguments were provided. If not, it will print
+            the argparse help message and exit. Otherwise, it will validate key parameters (if any) and then
+            simply call func() to run the method designated to the subcommand
+     """
+
+    def __init__(self, name: str, description: str, config_section: str, key_parameters: dict = None):
+        self.parser = ArgumentParser(prog=name, description=description)
         self.subparsers = self.parser.add_subparsers(dest="subparser_name")
-        self.config = load_user_configuration_file()[config_key]
+        self.config = load_user_configuration_file()[config_section]
         self.key_parameters = key_parameters
 
     def main(self):

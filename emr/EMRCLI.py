@@ -6,7 +6,7 @@ from emr.info import print_emr_cluster_info
 class EMRCLI(CLITool):
 
     def __init__(self):
-        super(EMRCLI, self).__init__(name='emr', description='CLI tool to manage EMR resources', config_key='EMR',
+        super(EMRCLI, self).__init__(name='emr', description='CLI tool to manage EMR resources', config_section='EMR',
                                      key_parameters={'connect': ['identifier'], 'info': ['identifier']})
 
         # Connect command

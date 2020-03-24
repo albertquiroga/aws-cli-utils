@@ -7,7 +7,7 @@ from glue.notebook import connect_to_notebook
 class GlueCLI(CLITool):
 
     def __init__(self):
-        super(GlueCLI, self).__init__(name='glue', description='CLI tool to manage Glue resources', config_key='Glue',
+        super(GlueCLI, self).__init__(name='glue', description='CLI tool to manage Glue resources', config_section='Glue',
                                       key_parameters={'connect': ['name'], 'crawl': ['path'], 'notebook': ['name']})
 
         # Connect command
