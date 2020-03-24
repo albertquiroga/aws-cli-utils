@@ -6,7 +6,7 @@ from commons.ConnectionParams import ConnectionParams
 bastion_params = ConnectionParams(host=find_ec2_instance_address_by_name('bertolb'), username='ec2-user')
 
 
-def build_ssh_command(address, username, pkey_path="", port=22, options=""):
+def build_ssh_command(address: str, username: str, pkey_path="", port=22, options=""):
     """
     Builds an SSH command to connect to an EC2 instance. If the provided address is private,
     it will add an in-between bastion instance to make the connection possible

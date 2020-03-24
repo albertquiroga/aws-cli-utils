@@ -1,8 +1,10 @@
 import os
+from argparse import Namespace
+
 from commons.ssh import build_ssh_command, find_ec2_instance_address_by_name
 
 
-def connect_to_ec2_instance(args):
+def connect_to_ec2_instance(args: Namespace):
     """
     Main function. Find EC2 instance address, builds an SSH command and runs it
     :param args: Namespace object containing CLI args

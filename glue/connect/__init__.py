@@ -1,6 +1,8 @@
 import os
 import sys
 import boto3
+import argparse
+from typing import Union
 from botocore.exceptions import ClientError
 from commons.ssh import build_ssh_command
 from commons import extract_ip_address_from_aws_hostname
@@ -10,7 +12,7 @@ glue_client = boto3.client('glue')
 GLUE_ENDPOINT_USERNAME = 'glue'
 
 
-def connect_to_dev_endpoint(args):
+def connect_to_dev_endpoint(args: argparse.Namespace):
     """
     Main function. Connects to the dev endpoint specified by the user as a CLI arg
     :param args: Namespace object containing CLI args
@@ -20,7 +22,7 @@ def connect_to_dev_endpoint(args):
     _handle_connection(endpoint_address, args.print)
 
 
-def _get_dev_endpoint_address(dev_endpoint_name):
+def _get_dev_endpoint_address(dev_endpoint_name: str) -> str:
     """
     Fetches the IP address of a development endpoint (public if possible, private if not)
     :param dev_endpoint_name: Name of the dev endpoint
@@ -30,7 +32,7 @@ def _get_dev_endpoint_address(dev_endpoint_name):
     return dev_endpoint['PublicAddress'] if 'PublicAddress' in dev_endpoint else dev_endpoint['PrivateAddress']
 
 
-def _get_dev_endpoint(dev_endpoint_name):
+def _get_dev_endpoint(dev_endpoint_name: str) -> Union[str, None]:
     """
     Retrieves a dev endpoint from boto3 while handling possible error exceptions
     :param dev_endpoint_name: Name of the dev endpoint
@@ -47,7 +49,7 @@ def _get_dev_endpoint(dev_endpoint_name):
             raise()
 
 
-def _handle_connection(endpoint_address, print_flag):
+def _handle_connection(endpoint_address: str, print_flag: bool):
     """
     Build an SSH command, then runs it or prints it depending on the print flag
     :param endpoint_address: IP address of the Glue development endpoint

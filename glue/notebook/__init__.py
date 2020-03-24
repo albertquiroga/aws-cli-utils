@@ -1,11 +1,14 @@
 import os
 import sys
+from typing import Union
+from argparse import Namespace
+
 import boto3
 
 sagemaker_client = boto3.client('sagemaker')
 
 
-def connect_to_notebook(args):
+def connect_to_notebook(args: Namespace):
     """
     Retrieves a SageMaker notebook and connects to it. If no instance was found, prints error message and exits
     :param args: Namespace object containing CLI args
@@ -15,7 +18,7 @@ def connect_to_notebook(args):
     _open_notebook(notebook) if notebook else _exit_because_no_notebook_found()
 
 
-def _get_sagemaker_instance(notebook_name):
+def _get_sagemaker_instance(notebook_name: str) -> Union[str, None]:
     """
     Retrieves the first SageMaker instance that contains the provided notebook name
     :param notebook_name: Name of the notebook instance. Partial match allowed
@@ -25,7 +28,7 @@ def _get_sagemaker_instance(notebook_name):
     return instances[0] if len(instances) > 0 else None
 
 
-def _open_notebook(notebook):
+def _open_notebook(notebook: dict):
     """
     Informs the user and opens the URL of the provided notebook instance
     :param notebook: SageMaker instance boto3 object

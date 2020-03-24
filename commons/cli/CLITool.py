@@ -1,6 +1,7 @@
 import sys
-import argparse
+from argparse import Namespace
 from pathlib import Path
+
 from commons import load_user_configuration_file
 
 CONFIG_FILE_PATH = f'{str(Path.home())}/.aws-cli-utils'
@@ -8,7 +9,7 @@ CONFIG_FILE_PATH = f'{str(Path.home())}/.aws-cli-utils'
 
 class CLITool:
 
-    def __init__(self, name, description, config_key, key_parameters=None):
+    def __init__(self, name: str, description: str, config_key: str, key_parameters: dict = None):
         self.parser = argparse.ArgumentParser(prog=name, description=description)
         self.subparsers = self.parser.add_subparsers(dest="subparser_name")
         self.config = load_user_configuration_file()[config_key]
@@ -24,7 +25,7 @@ class CLITool:
         self._print_help_and_exit() if self._no_args_provided(args) else self._validate_and_run(args)
 
     @staticmethod
-    def _no_args_provided(args: argparse.Namespace) -> bool:
+    def _no_args_provided(args: Namespace) -> bool:
         """
         Determines if the user didn't provide any CLI args
         :param args: Namespace object containing CLI args
@@ -32,7 +33,7 @@ class CLITool:
         """
         return len(vars(args)) <= 1
 
-    def _validate_and_run(self, args: argparse.Namespace):
+    def _validate_and_run(self, args: Namespace):
         """
         Validates key parameters and runs the function associated to the provided subcommand
         :param args: Namespace object containing CLI args
@@ -50,7 +51,7 @@ class CLITool:
         self.parser.print_help()
         sys.exit(1)
 
-    def _validate_cli_key_parameters(self, args: argparse.Namespace, subcommand: str):
+    def _validate_cli_key_parameters(self, args: Namespace, subcommand: str):
         """
         For each key parameter, checks whether a value was provided for it either as a CLI arg or
         as a default value in the config file

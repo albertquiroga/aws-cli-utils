@@ -1,10 +1,12 @@
 import os
 import sys
+from argparse import Namespace
+
 from commons.ssh import build_ssh_command
 from emr.utils import get_cluster_id_from_identifier, find_master_node_hostname
 
 
-def connect_to_emr_cluster(args):
+def connect_to_emr_cluster(args: Namespace):
     """
     Main function. Retrieves the cluster ID, builds an SSH command to connect to it and
     then either runs it or prints it depending on the configuration
@@ -27,7 +29,7 @@ def _exit_because_no_cluster_found():
     sys.exit(1)
 
 
-def _handle_connection(address, key, print_flag):
+def _handle_connection(address: str, key: str, print_flag: bool):
     """
     Build an SSH command, then runs it or prints it depending on the print flag
     :param address: Address of the node to connect to

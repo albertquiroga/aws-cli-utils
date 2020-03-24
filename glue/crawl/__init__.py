@@ -1,10 +1,13 @@
-import boto3
+from argparse import Namespace
 from functools import reduce
+from typing import Union
+
+import boto3
 
 glue_client = boto3.client('glue')
 
 
-def crawl(args):
+def crawl(args: Namespace):
     """
     Main function. Looks for existing crawlers already targeting the provided path. If there's one, it will run it.
     Otherwise, it will create one for it and run it.
@@ -15,7 +18,7 @@ def crawl(args):
     _run_existing_crawler(crawler_name) if crawler_name else _create_and_run_crawler(args.path)
 
 
-def _look_for_existing_crawler(s3_location):
+def _look_for_existing_crawler(s3_location: str):
     """
     Checks whether a crawler already exists with the specified S3 path as the target, and if
     there is it returns its name. If there's several, return the first
@@ -26,7 +29,7 @@ def _look_for_existing_crawler(s3_location):
     return _process_crawlers(crawler_list, s3_location) if crawler_list else None
 
 
-def _process_crawlers(crawler_list, s3_location):
+def _process_crawlers(crawler_list: list, s3_location: str) -> Union[str, None]:
     """
     Given a list of crawlers, it will check their targets to see if they contain the provided s3 location.
     If they do, it will return the first one.
@@ -34,7 +37,7 @@ def _process_crawlers(crawler_list, s3_location):
     :param s3_location: S3 path to be crawled
     :return: Name of the first encountered crawler that has the path on its targets
     """
-    def _filter_crawler(crawler):
+    def _filter_crawler(crawler: dict) -> bool:
         """
         Returns true if s3_location is in the crawler's targets
         :param crawler: Crawler to be filtered
@@ -48,7 +51,7 @@ def _process_crawlers(crawler_list, s3_location):
     return reduce(lambda a, b: a, crawler_names) if len(crawler_names) > 0 else None
 
 
-def _run_existing_crawler(crawler_name):
+def _run_existing_crawler(crawler_name: str):
     """
     Runs the specified crawler
     :param crawler_name: Name of the crawler to run
@@ -58,7 +61,7 @@ def _run_existing_crawler(crawler_name):
     glue_client.start_crawler(Name=crawler_name)
 
 
-def _create_and_run_crawler(s3_location):
+def _create_and_run_crawler(s3_location: str):
     """
     Creates a new crawler targeting the specified S3 path, then runs it.
     :param s3_location: S3 path to crawl

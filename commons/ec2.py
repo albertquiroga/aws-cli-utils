@@ -1,9 +1,11 @@
+from typing import Union
+
 import boto3
 
 ec2 = boto3.client('ec2')
 
 
-def find_ec2_instance_address_by_name(instance_name):
+def find_ec2_instance_address_by_name(instance_name: str) -> Union[str, None]:
     """
     Returns an instance's IP address (public if possible, private if not) based on its 'Name' tag
     :param instance_name: 'Name' tag of the instance

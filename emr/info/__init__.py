@@ -1,7 +1,9 @@
+from argparse import Namespace
+
 from emr.utils import emr_client, get_cluster_id_from_identifier
 
 
-def print_emr_cluster_info(args):
+def print_emr_cluster_info(args: Namespace):
     """
     Main function. Retrieves the cluster ID and then prints all information regarding it
     :param args: Namespace object containing CLI args
@@ -11,7 +13,7 @@ def print_emr_cluster_info(args):
     _print_cluster_info(cluster_id)
 
 
-def _print_cluster_info(cluster_id):
+def _print_cluster_info(cluster_id: str):
     """
     Prints all information of a given cluster ID
     :param cluster_id: EMR cluster ID
@@ -28,10 +30,10 @@ def _print_cluster_info(cluster_id):
         _print_instance_group(instance_group, cluster_id)
 
 
-def _print_instance_group(instance_group, cluster_id):
+def _print_instance_group(instance_group: dict, cluster_id: str):
     """
     Prints all information of a given instance group
-    :param instance_group: Instance group ID
+    :param instance_group: Instance group dict
     :param cluster_id: EMR cluster ID
     :return: None
     """
@@ -41,16 +43,16 @@ def _print_instance_group(instance_group, cluster_id):
     print(instance_group_type)
 
     instances_info = emr_client.list_instances(ClusterId=cluster_id, InstanceGroupId=instance_group_id)
-    _print_instances(instances_info)
+    _print_instances(instances_info['Instances'])
 
 
-def _print_instances(instance_list):
+def _print_instances(instance_list: list):
     """
     Prints all instances in an instance group
     :param instance_list: List of EC2 instances in an instance group
     :return: None
     """
-    for instance in instance_list['Instances']:
+    for instance in instance_list:
         print('\t{:<20} {:<20} {:<20}'.format(
             instance['Ec2InstanceId'],
             instance['PrivateIpAddress'],

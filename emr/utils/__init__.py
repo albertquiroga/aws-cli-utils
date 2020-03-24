@@ -1,10 +1,11 @@
-import boto3
 from commons import extract_ip_address_from_aws_hostname
+
+import boto3
 
 emr_client = boto3.client('emr')
 
 
-def get_cluster_id_from_identifier(identifier):
+def get_cluster_id_from_identifier(identifier: str) -> str:
     """
     Returns the corresponding Cluster ID of a provided identifier.
     :param identifier: Either a cluster name or a cluster ID
@@ -13,7 +14,7 @@ def get_cluster_id_from_identifier(identifier):
     return identifier if _this_is_cluster_id(identifier) else _find_cluster_id_by_name(identifier)
 
 
-def _this_is_cluster_id(identifier):
+def _this_is_cluster_id(identifier: str) -> bool:
     """
     Returns true if the provided identifier is an EMR Cluster ID
     :param identifier: Either a cluster name or a cluster ID
@@ -22,7 +23,7 @@ def _this_is_cluster_id(identifier):
     return identifier.startswith('j-')
 
 
-def _find_cluster_id_by_name(cluster_name):
+def _find_cluster_id_by_name(cluster_name: str) -> str:
     """
     Given a cluster name, it will return its corresponding cluster ID if it can be found
     :param cluster_name: EMR cluster name
@@ -33,7 +34,7 @@ def _find_cluster_id_by_name(cluster_name):
     return filtered_list[0]['Id'] if len(filtered_list) > 0 else None
 
 
-def find_master_node_hostname(cluster_id):
+def find_master_node_hostname(cluster_id: str) -> str:
     """
     Given a cluster ID, it will return the hostname of the master node
     :param cluster_id: EMR cluster iD
