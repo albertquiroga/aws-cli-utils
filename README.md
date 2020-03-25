@@ -164,3 +164,20 @@ The 'glue notebook' command supports the following values:
 
 * DefaultNotebookName: sets a default value for the 'name' positional argument
 
+### Sample file
+
+The following is an example of how to write the file:
+
+```
+[EC2]
+DefaultInstanceName = test
+DefaultUsername = ec2-user
+DefaultPort = 22
+
+[EMR]
+DefaultClusterIdentifier = test
+
+[Glue]
+DefaultDevEndpointName = test
+DefaultNotebookName = test
+```
