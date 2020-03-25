@@ -1,4 +1,4 @@
-from commons import extract_ip_address_from_aws_hostname
+from common_utils.aws import extract_ip_address_from_aws_hostname
 
 import boto3
 

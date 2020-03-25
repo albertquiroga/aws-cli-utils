@@ -2,7 +2,7 @@ from argparse import Namespace
 from typing import Union
 import sys
 
-import commons
+import common_utils
 
 import boto3
 from botocore.exceptions import ClientError
@@ -62,7 +62,7 @@ def _delete_tables(database_name: str, table_list: list):
     :return: None
     """
     print(f'Deleting {len(table_list)} tables from database {database_name}...')
-    split = commons.divide_chunks(table_list, MAX_DELETE_BATCH_SIZE)
+    split = common_utils.divide_chunks(table_list, MAX_DELETE_BATCH_SIZE)
     for chunk in split:
         glue_client.batch_delete_table(DatabaseName=database_name, TablesToDelete=chunk)
 

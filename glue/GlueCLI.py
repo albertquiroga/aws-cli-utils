@@ -1,4 +1,4 @@
-from commons.cli.CLITool import CLITool
+from common_utils.cli.CLITool import CLITool
 from glue.crawl import crawl
 from glue.connect import connect_to_dev_endpoint
 from glue.notebook import connect_to_notebook

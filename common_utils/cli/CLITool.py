@@ -2,7 +2,7 @@ import sys
 from argparse import Namespace, ArgumentParser
 from pathlib import Path
 
-from commons import load_user_configuration_file
+from common_utils import load_user_configuration_file
 
 CONFIG_FILE_PATH = f'{str(Path.home())}/.aws-cli-utils'
 

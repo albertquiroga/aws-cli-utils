@@ -1,9 +1,9 @@
 from ipaddress import ip_address
 
-from commons.ec2 import find_ec2_instance_address_by_name
-from commons.ConnectionParams import ConnectionParams
+from common_utils.aws import get_ec2_address_by_name
+from common_utils.network.ConnectionParams import ConnectionParams
 
-bastion_params = ConnectionParams(host=find_ec2_instance_address_by_name('bertolb'), username='ec2-user')
+bastion_params = ConnectionParams(host=get_ec2_address_by_name('bertolb'), username='ec2-user')
 
 
 def build_ssh_command(address: str, username: str, pkey_path="", port=22, options=""):

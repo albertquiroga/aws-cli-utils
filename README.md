@@ -32,15 +32,16 @@ optional arguments:
   -h, --help  show this help message and exit
 ```
 
-* Connect to a particular instance via SSH by its 'Name' tag using the 'ec2 connect' command
+* Connect to a particular instance via SSH by either its 'Name' tag or the instance ID using the 'ec2 connect' command
 
 ```
-usage: ec2 connect [-h] [-k KEY] [-u USER] [-p PORT] [-P] [name]
+usage: ec2 connect [-h] [-k KEY] [-u USER] [-p PORT] [-P] [identifier]
 
 Connect to an EC2 instance via SSH
 
 positional arguments:
-  name                  Name tag of the EC2 instance to connect to
+  identifier            Identifier of the instance to connect to. This can
+                        either be a cluster ID or a "Name" tag
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -144,7 +145,7 @@ Currently-supported default values are:
 
 The 'ec2 connect' command supports the following values:
 
-* DefaultInstanceName: sets a default value for the 'name' positional argument
+* DefaultInstanceIdentifier: sets a default value for the 'identifier' positional argument
 * DefaultUsername: sets a default value for the 'username' optional argument
 * DefaultPort: sets a default value for the 'port' optional argument
 
@@ -170,7 +171,7 @@ The following is an example of how to write the file:
 
 ```
 [EC2]
-DefaultInstanceName = test
+DefaultInstanceIdentifier = test
 DefaultUsername = ec2-user
 DefaultPort = 22
 

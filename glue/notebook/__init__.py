@@ -18,7 +18,7 @@ def connect_to_notebook(args: Namespace):
     _open_notebook(notebook) if notebook else _exit_because_no_notebook_found()
 
 
-def _get_sagemaker_instance(notebook_name: str) -> Union[str, None]:
+def _get_sagemaker_instance(notebook_name: str) -> Union[dict, None]:
     """
     Retrieves the first SageMaker instance that contains the provided notebook name
     :param notebook_name: Name of the notebook instance. Partial match allowed

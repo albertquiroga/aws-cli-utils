@@ -2,7 +2,7 @@ import os
 import sys
 from argparse import Namespace
 
-from commons.ssh import build_ssh_command
+from common_utils.network import build_ssh_command
 from emr.utils import get_cluster_id_from_identifier, find_master_node_hostname
 
 

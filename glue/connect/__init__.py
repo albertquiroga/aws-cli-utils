@@ -4,8 +4,9 @@ import boto3
 import argparse
 from typing import Union
 from botocore.exceptions import ClientError
-from commons.ssh import build_ssh_command
-from commons import extract_ip_address_from_aws_hostname
+
+from common_utils.network import build_ssh_command
+from common_utils.aws import extract_ip_address_from_aws_hostname
 
 glue_client = boto3.client('glue')
 

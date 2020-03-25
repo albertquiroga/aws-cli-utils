@@ -1,4 +1,4 @@
-from commons.cli.CLITool import CLITool
+from common_utils.cli.CLITool import CLITool
 from ec2.list import list_ec2_instances
 from ec2.connect import connect_to_ec2_instance
 
@@ -10,12 +10,14 @@ class EC2CLI(CLITool):
 
     def __init__(self):
         super(EC2CLI, self).__init__(name='ec2', description='CLI tool to manage EC2 resources', config_section='EC2',
-                                     key_parameters={'connect': ['name']})
+                                     key_parameters={'connect': ['identifier']})
 
         # Connect command
         parser_connect = self.subparsers.add_parser(name='connect', description='Connect to an EC2 instance via SSH')
-        parser_connect.add_argument('name', type=str, nargs='?', default=self.config.get('DefaultInstanceName', ''),
-                                    help='Name tag of the EC2 instance to connect to')
+        parser_connect.add_argument('identifier', type=str, nargs='?',
+                                    default=self.config.get('DefaultInstanceIdentifier', ''),
+                                    help='Identifier of the instance to connect to. This can either be a cluster ID or '
+                                         'a "Name" tag')
         parser_connect.add_argument('-k', '--key', type=str, help='Path to private key file to use for authentication')
         parser_connect.add_argument('-u', '--user', type=str,
                                     default=self.config.get('DefaultUsername', DEFAULT_USERNAME),

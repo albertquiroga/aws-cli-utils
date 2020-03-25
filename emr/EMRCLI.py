@@ -1,4 +1,4 @@
-from commons.cli.CLITool import CLITool
+from common_utils.cli.CLITool import CLITool
 from emr.connect import connect_to_emr_cluster
 from emr.info import print_emr_cluster_info
 
