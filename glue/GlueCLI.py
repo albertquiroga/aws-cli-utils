@@ -2,13 +2,17 @@ from commons.cli.CLITool import CLITool
 from glue.crawl import crawl
 from glue.connect import connect_to_dev_endpoint
 from glue.notebook import connect_to_notebook
+from glue.dtfc import delete_tables_from_crawler
 
 
 class GlueCLI(CLITool):
 
     def __init__(self):
-        super(GlueCLI, self).__init__(name='glue', description='CLI tool to manage Glue resources', config_section='Glue',
-                                      key_parameters={'connect': ['name'], 'crawl': ['path'], 'notebook': ['name']})
+        super(GlueCLI, self).__init__(name='glue', description='CLI tool to manage Glue resources',
+                                      config_section='Glue', key_parameters={'connect': ['name'],
+                                                                             'crawl': ['path'],
+                                                                             'notebook': ['name'],
+                                                                             'dtfc': ['name']})
 
         # Connect command
         parser_connect = self.subparsers.add_parser('connect', description='Connect to Glue development endpoints')
@@ -30,3 +34,9 @@ class GlueCLI(CLITool):
         parser_notebook.add_argument('name', type=str, nargs='?', default=self.config.get('DefaultNotebookName', ''),
                                      help='Name of the notebook to connect to. Partial match allowed!')
         parser_notebook.set_defaults(func=connect_to_notebook)
+
+        # Delete tables from crawler command
+        parser_dtfc = self.subparsers.add_parser(name='dtfc', description='Delete all tables created '
+                                                                          'by a particular crawler')
+        parser_dtfc.add_argument('name', type=str, help='Name of the crawler that created the tables')
+        parser_dtfc.set_defaults(func=delete_tables_from_crawler)
