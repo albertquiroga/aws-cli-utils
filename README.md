@@ -145,29 +145,29 @@ Currently-supported default values are:
 
 The 'ec2 connect' command supports the following values:
 
-* DefaultInstanceIdentifier: sets a default value for the 'identifier' positional argument
-* DefaultUsername: sets a default value for the 'username' optional argument
-* DefaultPort: sets a default value for the 'port' optional argument
+* `DefaultInstanceIdentifier`: sets a default value for the 'identifier' positional argument
+* `DefaultUsername`: sets a default value for the 'username' optional argument
+* `DefaultPort`: sets a default value for the 'port' optional argument
 
 ### EMR
 
 Both the 'emr connect' and 'emr info' commands support the following values:
 
-* DefaultClusterIdentifier: sets a default value for the 'identifier' positional argument
+* `DefaultClusterIdentifier`: sets a default value for the 'identifier' positional argument
 
 ### Glue
 
 The 'glue crawl' command supports the following values:
 
-* DefaultCrawlerDatabase: sets a default value for the 'database' optional argument
+* `DefaultCrawlerDatabase`: sets a default value for the 'database' optional argument
 
 The 'glue connect' command supports the following values:
 
-* DefaultDevEndpointName: sets a default value for the 'name' positional argument
+* `DefaultDevEndpointName`: sets a default value for the 'name' positional argument
 
 The 'glue notebook' command supports the following values:
 
-* DefaultNotebookName: sets a default value for the 'name' positional argument
+* `DefaultNotebookName`: sets a default value for the 'name' positional argument
 
 ### Sample file
 
