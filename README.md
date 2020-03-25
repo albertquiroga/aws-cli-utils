@@ -157,6 +157,10 @@ Both the 'emr connect' and 'emr info' commands support the following values:
 
 ### Glue
 
+The 'glue crawl' command supports the following values:
+
+* DefaultCrawlerDatabase: sets a default value for the 'database' optional argument
+
 The 'glue connect' command supports the following values:
 
 * DefaultDevEndpointName: sets a default value for the 'name' positional argument
@@ -181,4 +185,5 @@ DefaultClusterIdentifier = test
 [Glue]
 DefaultDevEndpointName = test
 DefaultNotebookName = test
+DefaultCrawlerDatabase = test
 ```

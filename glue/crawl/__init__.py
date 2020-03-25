@@ -15,7 +15,7 @@ def crawl(args: Namespace):
     :return: None
     """
     crawler_name = _look_for_existing_crawler(args.path)
-    _run_existing_crawler(crawler_name) if crawler_name else _create_and_run_crawler(args.path)
+    _run_existing_crawler(crawler_name) if crawler_name else _create_and_run_crawler(args.path, args.database)
 
 
 def _look_for_existing_crawler(s3_location: str):
@@ -61,7 +61,7 @@ def _run_existing_crawler(crawler_name: str):
     glue_client.start_crawler(Name=crawler_name)
 
 
-def _create_and_run_crawler(s3_location: str):
+def _create_and_run_crawler(s3_location: str, database_name: str):
     """
     Creates a new crawler targeting the specified S3 path, then runs it.
     :param s3_location: S3 path to crawl
@@ -72,7 +72,7 @@ def _create_and_run_crawler(s3_location: str):
     glue_client.create_crawler(
         Name=crawler_name,
         Role='service-role/AWSGlueServiceRole-DefaultRole',
-        DatabaseName='test',
+        DatabaseName=database_name,
         Targets={
             'S3Targets': [
                 {

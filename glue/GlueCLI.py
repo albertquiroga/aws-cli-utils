@@ -4,6 +4,8 @@ from glue.connect import connect_to_dev_endpoint
 from glue.notebook import connect_to_notebook
 from glue.dtfc import delete_tables_from_crawler
 
+DEFAULT_CRAWLER_DATABASE_NAME = 'test'
+
 
 class GlueCLI(CLITool):
 
@@ -26,6 +28,9 @@ class GlueCLI(CLITool):
         # Crawl command
         parser_crawl = self.subparsers.add_parser('crawl', description='Run a crawler')
         parser_crawl.add_argument('path', type=str, help='s3 path to be crawled')
+        parser_crawl.add_argument('-d', '--database', type=str,
+                                  default=self.config.get('DefaultCrawlerDatabase', DEFAULT_CRAWLER_DATABASE_NAME),
+                                  help='database where the resulting table will be written')
         parser_crawl.set_defaults(func=crawl)
 
         # Notebook command
