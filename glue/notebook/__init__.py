@@ -3,9 +3,7 @@ import sys
 from typing import Union
 from argparse import Namespace
 
-import boto3
-
-sagemaker_client = boto3.client('sagemaker')
+from common_utils.aws import sagemaker_client
 
 
 def connect_to_notebook(args: Namespace):

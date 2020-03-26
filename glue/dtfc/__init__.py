@@ -3,13 +3,11 @@ from typing import Union
 import sys
 
 import common_utils
+from common_utils.aws import glue_client
 
-import boto3
 from botocore.exceptions import ClientError
 
 MAX_DELETE_BATCH_SIZE = 100  # Maximum number of tables that can be given to the 'batch_delete_table' operation
-
-glue_client = boto3.client('glue')
 
 
 def delete_tables_from_crawler(args: Namespace):

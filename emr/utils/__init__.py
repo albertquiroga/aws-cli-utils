@@ -1,8 +1,4 @@
-from common_utils.aws import extract_ip_address_from_aws_hostname
-
-import boto3
-
-emr_client = boto3.client('emr')
+from common_utils.aws import extract_ip_address_from_aws_hostname, emr_client
 
 
 def get_cluster_id_from_identifier(identifier: str) -> str:

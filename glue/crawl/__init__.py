@@ -2,9 +2,7 @@ from argparse import Namespace
 from functools import reduce
 from typing import Union
 
-import boto3
-
-glue_client = boto3.client('glue')
+from common_utils.aws import glue_client
 
 
 def crawl(args: Namespace):

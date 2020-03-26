@@ -1,11 +1,7 @@
 from functools import reduce
 
-import boto3
-
 from common_utils import print_row
-
-ec2_client = boto3.client('ec2')
-ec2_resource = boto3.resource('ec2')
+from common_utils.aws import ec2_client, ec2_resource
 
 TABLE_HEADERS = ['Name', 'Instance ID', 'Private IP address', 'Public IP address']
 
