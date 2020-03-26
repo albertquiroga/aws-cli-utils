@@ -2,6 +2,8 @@ from functools import reduce
 
 import boto3
 
+from common_utils import print_row
+
 ec2_client = boto3.client('ec2')
 ec2_resource = boto3.resource('ec2')
 
@@ -45,22 +47,10 @@ def _print_instances(instances):
     :param instances: List of Instance objects
     :return: None
     """
-    _print_row(*TABLE_HEADERS)
+    print_row(*TABLE_HEADERS)
     for instance in instances:
-        _print_row(_extract_name_from_tags(instance.tags), instance.id,
-                   instance.private_ip_address, instance.public_ip_address)
-
-
-def _print_row(name, instance_id, private_ip_address, public_ip_address):
-    """
-    Prints a row of EC2 instance data in a tabular fashion
-    :param name: EC2 instance name
-    :param instance_id: EC2 instance ID
-    :param private_ip_address: Private IP address
-    :param public_ip_address: Public IP address
-    :return: None
-    """
-    print('{:<20} {:<20} {:<20} {:<20}'.format(name, instance_id, private_ip_address, public_ip_address))
+        print_row(_extract_name_from_tags(instance.tags), instance.id,
+                  instance.private_ip_address, instance.public_ip_address)
 
 
 def _extract_name_from_tags(tag_list):

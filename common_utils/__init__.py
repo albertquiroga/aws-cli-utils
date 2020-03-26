@@ -24,3 +24,15 @@ def divide_chunks(big_list: list, chunk_size: int) -> list:
     """
     for i in range(0, len(big_list), chunk_size):
         yield big_list[i:i + chunk_size]
+
+
+def print_row(first, second, third, fourth):
+    """
+    Prints a row of EC2 instance data in a tabular fashion
+    :param first: First column
+    :param second: Second column
+    :param third: Third column
+    :param fourth: Fourth column
+    :return: None
+    """
+    print('{:<20} {:<20} {:<20} {:<20}'.format(first, second, third, fourth))
