@@ -1,10 +1,7 @@
 import sys
 from argparse import Namespace, ArgumentParser
-from pathlib import Path
 
-from common_utils import load_user_configuration_file
-
-CONFIG_FILE_PATH = f'{str(Path.home())}/.aws-cli-utils'
+from common_utils import load_user_configuration_file, CONFIG_FILE_PATH
 
 
 class CLITool:
@@ -37,7 +34,8 @@ class CLITool:
     def __init__(self, name: str, description: str, config_section: str, key_parameters: dict = None):
         self.parser = ArgumentParser(prog=name, description=description)
         self.subparsers = self.parser.add_subparsers(dest="subparser_name")
-        self.config = load_user_configuration_file()[config_section]
+        config_file = load_user_configuration_file()
+        self.config = config_file[config_section] if config_section in config_file else {}
         self.key_parameters = key_parameters
 
     def main(self):
