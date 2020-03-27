@@ -15,9 +15,9 @@ setup(
     packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'glue=glue.__main__:main',
-            'ec2=ec2.__main__:main',
-            'emr=emr.__main__:main'
+            'glue=aws_cli_utils.glue.__main__:main',
+            'ec2=aws_cli_utils.ec2.__main__:main',
+            'emr=aws_cli_utils.emr.__main__:main'
         ]
     },
     classifiers=[
@@ -27,6 +27,6 @@ setup(
         "Natural Language :: English",
         "Topic :: Utilities"
     ],
-    install_requires=['boto3', 'botocore'],
+    install_requires=['albertquiroga_utils', 'boto3', 'botocore'],
     python_requires='>=3.5'  # TODO check the minimum version
 )
